@@ -6,6 +6,6 @@ target 'IceCreamShop' do
   use_frameworks!
 
   # Pods for IceCreamShop
-  pod 'Alamofire', '4.4.0'
+  pod 'Alamofire', '~> 4.7'
 
 end
