@@ -33,7 +33,7 @@ public func RGBA(_ red: CGFloat, _ green: CGFloat, _ blue: CGFloat, _ alpha: CGF
 extension UIColor {
 
   public convenience init?(rgbaString: String) {
-    var components = rgbaString.components(separatedBy: ", ")
+    var components = rgbaString.components(separatedBy: ",")
 
     if components.count == 3 {
       components.append("1.0")
