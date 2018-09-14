@@ -45,7 +45,13 @@ public class PickFlavorViewController: UIViewController {
   
   // MARK: - Helper Methods
   fileprivate func loadFlavors() {
-    // TO-DO: Implement this
+    // TODO: Implement this
+    let flavor = Flavor(dictionary: ["topColor" : "23, 34, 56", "bottomColor" : "43, 32, 234", "name" : "A new flavor!"])
+    
+    print(flavor?.name)
+    print(flavor?.topColor)
+    print(flavor?.bottomColor)
+    
   }
 
   fileprivate func selectFirstFlavor() {
