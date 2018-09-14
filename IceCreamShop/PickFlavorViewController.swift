@@ -46,29 +46,26 @@ public class PickFlavorViewController: UIViewController {
   
   // MARK: - Helper Methods
   fileprivate func loadFlavors() {
-    
-    // 1
-    Alamofire.request(
-      "https://www.raywenderlich.com/downloads/Flavors.plist",
-      method: .get,
-      encoding: PropertyListEncoding(format: .xml, options: 0)).responsePropertyList {
-        [weak self] response in
+    Alamofire.request("https://www.raywenderlich.com/downloads/Flavors.plist",
+                      method: HTTPMethod.get,
+                      parameters: nil,
+                      encoding: PropertyListEncoding(format: PropertyListSerialization.PropertyListFormat.xml, options: 0), // How can I know that?????!!!!!
+                      headers: nil
+      ).responsePropertyList { [weak self] (responseList) in
         
-        // 2
-        guard let strongSelf = self else { return }
-        
-        // 3
-        guard response.result.isSuccess,
-          let dictionaryArray = response.result.value as? [[String: String]] else {
-            return
+        guard let strongSelf = self else {
+          return
         }
         
-        // 4
-        strongSelf.flavors = strongSelf.flavorFactory.flavors(from: dictionaryArray)
+        guard responseList.result.isSuccess, let dictionaryList = responseList.result.value as? [[String: String]] else {
+          return
+        }
         
-        // 5
+        strongSelf.flavors = strongSelf.flavorFactory.flavors(from: dictionaryList)
+        
         strongSelf.collectionView.reloadData()
         strongSelf.selectFirstFlavor()
+        
     }
   }
 
