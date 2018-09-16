@@ -22,6 +22,7 @@
 
 import UIKit
 import Alamofire
+import MBProgressHUD
 
 /// It handles user interaction and is the data source for the collection view that displays the different ice cream flavors.
 public class PickFlavorViewController: UIViewController {
@@ -46,16 +47,23 @@ public class PickFlavorViewController: UIViewController {
   
   // MARK: - Helper Methods
   fileprivate func loadFlavors() {
+    // MBProgressHUD Starts!
+    showLoadingHUD()
+    
     Alamofire.request("https://www.raywenderlich.com/downloads/Flavors.plist",
                       method: HTTPMethod.get,
                       parameters: nil,
                       encoding: PropertyListEncoding(format: PropertyListSerialization.PropertyListFormat.xml, options: 0), // How can I know that?????!!!!!
                       headers: nil
       ).responsePropertyList { [weak self] (responseList) in
-        
+
         guard let strongSelf = self else {
           return
         }
+
+        // MBProgressHUD Ends here!
+        strongSelf.hideLoadingHUD()
+        
         
         guard responseList.result.isSuccess, let dictionaryList = responseList.result.value as? [[String: String]] else {
           return
@@ -69,7 +77,15 @@ public class PickFlavorViewController: UIViewController {
     }
   }
 
+  fileprivate func showLoadingHUD() {
+    let hud = MBProgressHUD.showAdded(to: contentView, animated: true)
+    hud.label.text = "Loading,,,"
+  }
 
+  fileprivate func hideLoadingHUD() {
+    MBProgressHUD.hide(for: contentView, animated: true)
+  }
+  
   fileprivate func selectFirstFlavor() {
     guard let flavor = flavors.first else {
       return
